@@ -64,15 +64,15 @@
    {
       datum baseAddress
       {
-         value = "67121184";
+         value = "67121200";
          type = "String";
       }
    }
-   element reg16_avalon_interface_0.avalon_slave_0
+   element pwm_motor_0.avalon_slave_0
    {
       datum baseAddress
       {
-         value = "67121192";
+         value = "67121152";
          type = "String";
       }
    }
@@ -100,7 +100,7 @@
          type = "String";
       }
    }
-   element reg16_avalon_interface_0
+   element pwm_motor_0
    {
       datum _sortIndex
       {
@@ -112,7 +112,7 @@
    {
       datum baseAddress
       {
-         value = "67121152";
+         value = "67121168";
          type = "String";
       }
    }
@@ -124,19 +124,19 @@
          type = "String";
       }
    }
-   element SW.s1
-   {
-      datum baseAddress
-      {
-         value = "67121168";
-         type = "String";
-      }
-   }
    element SDRAM.s1
    {
       datum baseAddress
       {
          value = "33554432";
+         type = "String";
+      }
+   }
+   element SW.s1
+   {
+      datum baseAddress
+      {
+         value = "67121184";
          type = "String";
       }
    }
@@ -169,8 +169,23 @@
  <interface name="sdram_wire" internal="SDRAM.wire" type="conduit" dir="end" />
  <interface name="sdram_clk" internal="clocks.sdram_clk" type="clock" dir="start" />
  <interface
-   name="to_hex"
-   internal="reg16_avalon_interface_0.conduit_end_1"
+   name="motor_p_r"
+   internal="pwm_motor_0.conduit_end"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="motor_n_r"
+   internal="pwm_motor_0.conduit_end_1"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="motor_p_l"
+   internal="pwm_motor_0.conduit_end_2"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="motor_n_l"
+   internal="pwm_motor_0.conduit_end_3"
    type="conduit"
    dir="end" />
  <module kind="clock_source" version="13.1" enabled="1" name="clk_0">
@@ -290,7 +305,7 @@
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
   <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x2000000' end='0x4000000' /><slave name='MEMOIRE.s1' start='0x4001000' end='0x4002000' /><slave name='CPU.jtag_debug_module' start='0x4002800' end='0x4003000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x2000000' end='0x4000000' /><slave name='MEMOIRE.s1' start='0x4001000' end='0x4002000' /><slave name='CPU.jtag_debug_module' start='0x4002800' end='0x4003000' /><slave name='LED.s1' start='0x4003000' end='0x4003010' /><slave name='SW.s1' start='0x4003010' end='0x4003020' /><slave name='JTAG.avalon_jtag_slave' start='0x4003020' end='0x4003028' /><slave name='reg16_avalon_interface_0.avalon_slave_0' start='0x4003028' end='0x400302A' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x2000000' end='0x4000000' /><slave name='MEMOIRE.s1' start='0x4001000' end='0x4002000' /><slave name='CPU.jtag_debug_module' start='0x4002800' end='0x4003000' /><slave name='pwm_motor_0.avalon_slave_0' start='0x4003000' end='0x4003010' /><slave name='LED.s1' start='0x4003010' end='0x4003020' /><slave name='SW.s1' start='0x4003020' end='0x4003030' /><slave name='JTAG.avalon_jtag_slave' start='0x4003030' end='0x4003038' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone IV E" />
   <parameter name="internalIrqMaskSystemInfo" value="32" />
@@ -413,11 +428,7 @@
   <parameter name="AUTO_CLK_IN_PRIMARY_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
  </module>
- <module
-   kind="reg16_avalon_interface"
-   version="1.0"
-   enabled="1"
-   name="reg16_avalon_interface_0" />
+ <module kind="pwm_motor" version="1.0" enabled="1" name="pwm_motor_0" />
  <connection
    kind="avalon"
    version="13.1"
@@ -480,12 +491,12 @@
    end="LED.reset" />
  <connection kind="avalon" version="13.1" start="CPU.data_master" end="SW.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x04003010" />
+  <parameter name="baseAddress" value="0x04003020" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="avalon" version="13.1" start="CPU.data_master" end="LED.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x04003000" />
+  <parameter name="baseAddress" value="0x04003010" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="reset" version="13.1" start="clk_0.clk_reset" end="JTAG.reset" />
@@ -495,7 +506,7 @@
    start="CPU.data_master"
    end="JTAG.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x04003020" />
+  <parameter name="baseAddress" value="0x04003030" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -548,24 +559,24 @@
    start="clk_0.clk"
    end="clocks.clk_in_primary" />
  <connection
+   kind="clock"
+   version="13.1"
+   start="clk_0.clk"
+   end="pwm_motor_0.clock_sink" />
+ <connection
    kind="reset"
    version="13.1"
    start="clk_0.clk_reset"
-   end="reg16_avalon_interface_0.reset_sink" />
+   end="pwm_motor_0.reset_sink" />
  <connection
    kind="avalon"
    version="13.1"
    start="CPU.data_master"
-   end="reg16_avalon_interface_0.avalon_slave_0">
+   end="pwm_motor_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x04003028" />
+  <parameter name="baseAddress" value="0x04003000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
- <connection
-   kind="clock"
-   version="13.1"
-   start="clk_0.clk"
-   end="reg16_avalon_interface_0.clock_sink" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>

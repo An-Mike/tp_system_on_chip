@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="lights">
+		<CBX_INST_ENTRY INSTANCE_NAME="|lights|v1:u0|v1_CPU:cpu|v1_CPU_nios2_oci:the_v1_CPU_nios2_oci|v1_CPU_nios2_ocimem:the_v1_CPU_nios2_ocimem|v1_CPU_ociram_sp_ram_module:v1_CPU_ociram_sp_ram|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_rp71.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|lights|v1:u0|v1_CPU:cpu|v1_CPU_register_bank_a_module:v1_CPU_register_bank_a|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_8jf1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|lights|v1:u0|v1_CPU:cpu|v1_CPU_register_bank_b_module:v1_CPU_register_bank_b|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_9jf1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|lights|v1:u0|v1_JTAG:jtag|v1_JTAG_scfifo_w:the_v1_JTAG_scfifo_w|scfifo:wfifo" CBX_FILE_NAME="scfifo_jr21.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|lights|v1:u0|v1_clocks:clocks|altpll:DE_Clock_Generator_System" CBX_FILE_NAME="altpll_6rb2.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|lights|v1:u0|v1_JTAG:jtag|v1_JTAG_scfifo_r:the_v1_JTAG_scfifo_r|scfifo:rfifo" CBX_FILE_NAME="scfifo_jr21.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|lights|v1:u0|v1_MEMOIRE:memoire|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_rlb1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|lights|v1:u0|v1_clocks:clocks|altpll:DE_Clock_Generator_Audio" CBX_FILE_NAME="altpll_vpb2.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
