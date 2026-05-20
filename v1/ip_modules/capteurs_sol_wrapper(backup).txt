@@ -1,0 +1,178 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+-- ===========================================================
+--  Avalon-MM wrapper pour capteurs_sol (LTC2308)
+--  Bus : 32 bits, pas d'IRQ (polling)
+--
+--  Carte mémoire (adresse sur 4 bits) :
+--    0x0  CTRL   (écriture) : bit0 = data_capture
+--    0x1  STATUS (lecture)  : bit0 = data_ready
+--    0x2  DATA0  (lecture)  : capteur 0 (8 bits)
+--    0x3  DATA1  (lecture)  : capteur 1
+--    0x4  DATA2  (lecture)  : capteur 2
+--    0x5  DATA3  (lecture)  : capteur 3
+--    0x6  DATA4  (lecture)  : capteur 4
+--    0x7  DATA5  (lecture)  : capteur 5
+--    0x8  DATA6  (lecture)  : capteur 6
+-- ===========================================================
+
+entity capteurs_avalon_wrapper is
+    port (
+        -- -----------------------------------------------
+        -- Horloge et reset (fournis par Qsys)
+        -- -----------------------------------------------
+        clk     : in std_logic;
+        reset_n : in std_logic;
+
+        -- -----------------------------------------------
+        -- Interface Avalon-MM Slave (côté Nios II)
+        -- -----------------------------------------------
+        avs_address    : in  std_logic_vector(3 downto 0);   -- 4 bits = 9 registres
+        avs_read       : in  std_logic;                       -- 1 = lecture demandée
+        avs_write      : in  std_logic;                       -- 1 = écriture demandée
+        avs_writedata  : in  std_logic_vector(31 downto 0);   -- donnée écrite par le Nios
+        avs_readdata   : out std_logic_vector(31 downto 0);   -- donnée lue par le Nios
+
+        -- -----------------------------------------------
+        -- Signaux SPI vers le LTC2308 (pins physiques)
+        -- -----------------------------------------------
+        ADC_CONVST : out std_logic;
+        ADC_SCK    : out std_logic;
+        ADC_SDI    : out std_logic;
+        ADC_SDO    : in  std_logic
+    );
+end entity capteurs_avalon_wrapper;
+
+
+architecture RTL of capteurs_avalon_wrapper is
+
+    -- -------------------------------------------------------
+    -- Déclaration du composant capteurs_sol (fichier du prof)
+    -- -------------------------------------------------------
+    component capteurs_sol is
+        port (
+            clk          : in  std_logic;
+            reset_n      : in  std_logic;
+            data_capture : in  std_logic;
+            data_readyr  : out std_logic;
+            data0r       : out std_logic_vector(7 downto 0);
+            data1r       : out std_logic_vector(7 downto 0);
+            data2r       : out std_logic_vector(7 downto 0);
+            data3r       : out std_logic_vector(7 downto 0);
+            data4r       : out std_logic_vector(7 downto 0);
+            data5r       : out std_logic_vector(7 downto 0);
+            data6r       : out std_logic_vector(7 downto 0);
+            ADC_CONVSTr  : out std_logic;
+            ADC_SCK      : out std_logic;
+            ADC_SDIr     : out std_logic;
+            ADC_SDO      : in  std_logic
+        );
+    end component;
+
+    -- -------------------------------------------------------
+    -- Signaux internes : relient le wrapper au capteurs_sol
+    -- -------------------------------------------------------
+    signal data_capture : std_logic;                     -- déclenchement acquisition
+    signal data_ready   : std_logic;                     -- mesure terminée
+    signal data0        : std_logic_vector(7 downto 0);
+    signal data1        : std_logic_vector(7 downto 0);
+    signal data2        : std_logic_vector(7 downto 0);
+    signal data3        : std_logic_vector(7 downto 0);
+    signal data4        : std_logic_vector(7 downto 0);
+    signal data5        : std_logic_vector(7 downto 0);
+    signal data6        : std_logic_vector(7 downto 0);
+
+    -- -------------------------------------------------------
+    -- Registre CTRL interne (écrit par le Nios)
+    -- -------------------------------------------------------
+    signal reg_ctrl : std_logic_vector(31 downto 0);
+
+begin
+
+    -- =======================================================
+    -- Instanciation du composant matériel (non modifié)
+    -- =======================================================
+    u_capteurs : capteurs_sol
+        port map (
+            clk          => clk,
+            reset_n      => reset_n,
+            data_capture => data_capture,
+            data_readyr  => data_ready,
+            data0r       => data0,
+            data1r       => data1,
+            data2r       => data2,
+            data3r       => data3,
+            data4r       => data4,
+            data5r       => data5,
+            data6r       => data6,
+            ADC_CONVSTr  => ADC_CONVST,
+            ADC_SCK      => ADC_SCK,
+            ADC_SDIr     => ADC_SDI,
+            ADC_SDO      => ADC_SDO
+        );
+
+    -- Le bit 0 du registre CTRL pilote data_capture
+    data_capture <= reg_ctrl(0);
+
+    -- =======================================================
+    -- Écriture Avalon : le Nios écrit dans reg_ctrl (0x0)
+    -- =======================================================
+    process(clk, reset_n)
+    begin
+        if reset_n = '0' then
+            reg_ctrl <= (others => '0');
+        elsif rising_edge(clk) then
+            if avs_write = '1' then
+                case avs_address is
+                    when "0000" => reg_ctrl <= avs_writedata;  -- CTRL
+                    when others => null;
+                end case;
+            end if;
+        end if;
+    end process;
+
+    -- =======================================================
+    -- Lecture Avalon : le Nios lit les registres
+    -- =======================================================
+    process(clk, reset_n)
+    begin
+        if reset_n = '0' then
+            avs_readdata <= (others => '0');
+        elsif rising_edge(clk) then
+            if avs_read = '1' then
+                case avs_address is
+                    when "0000" =>                              -- CTRL  (relecture)
+                        avs_readdata <= reg_ctrl;
+                    when "0001" =>                              -- STATUS
+                        avs_readdata <= (0 => data_ready, others => '0');
+                    when "0010" =>                              -- DATA0
+                        avs_readdata <= (others => '0');
+                        avs_readdata(7 downto 0) <= data0;
+                    when "0011" =>                              -- DATA1
+                        avs_readdata <= (others => '0');
+                        avs_readdata(7 downto 0) <= data1;
+                    when "0100" =>                              -- DATA2
+                        avs_readdata <= (others => '0');
+                        avs_readdata(7 downto 0) <= data2;
+                    when "0101" =>                              -- DATA3
+                        avs_readdata <= (others => '0');
+                        avs_readdata(7 downto 0) <= data3;
+                    when "0110" =>                              -- DATA4
+                        avs_readdata <= (others => '0');
+                        avs_readdata(7 downto 0) <= data4;
+                    when "0111" =>                              -- DATA5
+                        avs_readdata <= (others => '0');
+                        avs_readdata(7 downto 0) <= data5;
+                    when "1000" =>                              -- DATA6
+                        avs_readdata <= (others => '0');
+                        avs_readdata(7 downto 0) <= data6;
+                    when others =>
+                        avs_readdata <= (others => '0');
+                end case;
+            end if;
+        end if;
+    end process;
+
+end architecture RTL;

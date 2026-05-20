@@ -2,7 +2,7 @@ set_global_assignment -entity "v1" -library "v1" -name IP_TOOL_NAME "Qsys"
 set_global_assignment -entity "v1" -library "v1" -name IP_TOOL_VERSION "13.1"
 set_global_assignment -entity "v1" -library "v1" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "v1" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../v1.sopcinfo"]
-set_global_assignment -entity "v1" -library "v1" -name SLD_INFO "QSYS_NAME v1 HAS_SOPCINFO 1 GENERATION_ID 1779097732"
+set_global_assignment -entity "v1" -library "v1" -name SLD_INFO "QSYS_NAME v1 HAS_SOPCINFO 1 GENERATION_ID 1779283073"
 set_global_assignment -library "v1" -name MISC_FILE [file join $::quartus(qip_path) "../../v1.cmp"]
 set_global_assignment -library "v1" -name SLD_FILE [file join $::quartus(qip_path) "v1.regmap"]
 set_global_assignment -library "v1" -name SLD_FILE [file join $::quartus(qip_path) "v1.debuginfo"]
@@ -44,6 +44,8 @@ set_global_assignment -library "v1" -name SYSTEMVERILOG_FILE [file join $::quart
 set_global_assignment -library "v1" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_master_agent.sv"]
 set_global_assignment -library "v1" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_slave_translator.sv"]
 set_global_assignment -library "v1" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_merlin_master_translator.sv"]
+set_global_assignment -library "v1" -name VHDL_FILE [file join $::quartus(qip_path) "submodules/capteurs_sol_wrapper.vhd"]
+set_global_assignment -library "v1" -name VHDL_FILE [file join $::quartus(qip_path) "submodules/capteurs_sol_seuil.vhd"]
 set_global_assignment -library "v1" -name VHDL_FILE [file join $::quartus(qip_path) "submodules/PWM_avalon_wrapper.vhd"]
 set_global_assignment -library "v1" -name VHDL_FILE [file join $::quartus(qip_path) "submodules/PWM_generation.vhd"]
 set_global_assignment -library "v1" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/v1_clocks.v"]

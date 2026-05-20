@@ -50,9 +50,9 @@ module v1_mm_interconnect_0_addr_router_default_decode
                DEFAULT_DESTID = 4 
    )
   (output [89 - 87 : 0] default_destination_id,
-   output [7-1 : 0] default_wr_channel,
-   output [7-1 : 0] default_rd_channel,
-   output [7-1 : 0] default_src_channel
+   output [8-1 : 0] default_wr_channel,
+   output [8-1 : 0] default_rd_channel,
+   output [8-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
@@ -63,7 +63,7 @@ module v1_mm_interconnect_0_addr_router_default_decode
       assign default_src_channel = '0;
     end
     else begin
-      assign default_src_channel = 7'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 8'b1 << DEFAULT_CHANNEL;
     end
   end
   endgenerate
@@ -74,8 +74,8 @@ module v1_mm_interconnect_0_addr_router_default_decode
       assign default_rd_channel = '0;
     end
     else begin
-      assign default_wr_channel = 7'b1 << DEFAULT_WR_CHANNEL;
-      assign default_rd_channel = 7'b1 << DEFAULT_RD_CHANNEL;
+      assign default_wr_channel = 8'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = 8'b1 << DEFAULT_RD_CHANNEL;
     end
   end
   endgenerate
@@ -105,7 +105,7 @@ module v1_mm_interconnect_0_addr_router
     // -------------------
     output                          src_valid,
     output reg [103-1    : 0] src_data,
-    output reg [7-1 : 0] src_channel,
+    output reg [8-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -121,7 +121,7 @@ module v1_mm_interconnect_0_addr_router
     localparam PKT_PROTECTION_H = 93;
     localparam PKT_PROTECTION_L = 91;
     localparam ST_DATA_W = 103;
-    localparam ST_CHANNEL_W = 7;
+    localparam ST_CHANNEL_W = 8;
     localparam DECODER_TYPE = 0;
 
     localparam PKT_TRANS_WRITE = 65;
@@ -168,7 +168,7 @@ module v1_mm_interconnect_0_addr_router
     assign src_startofpacket = sink_startofpacket;
     assign src_endofpacket   = sink_endofpacket;
     wire [PKT_DEST_ID_W-1:0] default_destid;
-    wire [7-1 : 0] default_src_channel;
+    wire [8-1 : 0] default_src_channel;
 
 
 
@@ -194,19 +194,19 @@ module v1_mm_interconnect_0_addr_router
 
     // ( 0x2000000 .. 0x4000000 )
     if ( {address[RG:PAD0],{PAD0{1'b0}}} == 27'h2000000   ) begin
-            src_channel = 7'b100;
+            src_channel = 8'b100;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 4;
     end
 
     // ( 0x4001000 .. 0x4002000 )
     if ( {address[RG:PAD1],{PAD1{1'b0}}} == 27'h4001000   ) begin
-            src_channel = 7'b010;
+            src_channel = 8'b010;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 3;
     end
 
     // ( 0x4002800 .. 0x4003000 )
     if ( {address[RG:PAD2],{PAD2{1'b0}}} == 27'h4002800   ) begin
-            src_channel = 7'b001;
+            src_channel = 8'b001;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 0;
     end
 

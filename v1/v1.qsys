@@ -64,7 +64,15 @@
    {
       datum baseAddress
       {
-         value = "67121200";
+         value = "67121264";
+         type = "String";
+      }
+   }
+   element ground_sensor_controller_0.avalon_slave_0
+   {
+      datum baseAddress
+      {
+         value = "67121152";
          type = "String";
       }
    }
@@ -72,7 +80,7 @@
    {
       datum baseAddress
       {
-         value = "67121152";
+         value = "67121216";
          type = "String";
       }
    }
@@ -92,6 +100,14 @@
          type = "int";
       }
    }
+   element ground_sensor_controller_0
+   {
+      datum _sortIndex
+      {
+         value = "9";
+         type = "int";
+      }
+   }
    element CPU.jtag_debug_module
    {
       datum baseAddress
@@ -108,22 +124,6 @@
          type = "int";
       }
    }
-   element LED.s1
-   {
-      datum baseAddress
-      {
-         value = "67121168";
-         type = "String";
-      }
-   }
-   element MEMOIRE.s1
-   {
-      datum baseAddress
-      {
-         value = "67112960";
-         type = "String";
-      }
-   }
    element SDRAM.s1
    {
       datum baseAddress
@@ -136,7 +136,23 @@
    {
       datum baseAddress
       {
-         value = "67121184";
+         value = "67121248";
+         type = "String";
+      }
+   }
+   element MEMOIRE.s1
+   {
+      datum baseAddress
+      {
+         value = "67112960";
+         type = "String";
+      }
+   }
+   element LED.s1
+   {
+      datum baseAddress
+      {
+         value = "67121232";
          type = "String";
       }
    }
@@ -186,6 +202,26 @@
  <interface
    name="motor_n_l"
    internal="pwm_motor_0.conduit_end_3"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="adc_convst"
+   internal="ground_sensor_controller_0.conduit_end"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="adc_sck"
+   internal="ground_sensor_controller_0.conduit_end_1"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="adc_sdi"
+   internal="ground_sensor_controller_0.conduit_end_2"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="adc_sdo"
+   internal="ground_sensor_controller_0.conduit_end_3"
    type="conduit"
    dir="end" />
  <module kind="clock_source" version="13.1" enabled="1" name="clk_0">
@@ -305,7 +341,7 @@
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
   <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x2000000' end='0x4000000' /><slave name='MEMOIRE.s1' start='0x4001000' end='0x4002000' /><slave name='CPU.jtag_debug_module' start='0x4002800' end='0x4003000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x2000000' end='0x4000000' /><slave name='MEMOIRE.s1' start='0x4001000' end='0x4002000' /><slave name='CPU.jtag_debug_module' start='0x4002800' end='0x4003000' /><slave name='pwm_motor_0.avalon_slave_0' start='0x4003000' end='0x4003010' /><slave name='LED.s1' start='0x4003010' end='0x4003020' /><slave name='SW.s1' start='0x4003020' end='0x4003030' /><slave name='JTAG.avalon_jtag_slave' start='0x4003030' end='0x4003038' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x2000000' end='0x4000000' /><slave name='MEMOIRE.s1' start='0x4001000' end='0x4002000' /><slave name='CPU.jtag_debug_module' start='0x4002800' end='0x4003000' /><slave name='ground_sensor_controller_0.avalon_slave_0' start='0x4003000' end='0x4003040' /><slave name='pwm_motor_0.avalon_slave_0' start='0x4003040' end='0x4003050' /><slave name='LED.s1' start='0x4003050' end='0x4003060' /><slave name='SW.s1' start='0x4003060' end='0x4003070' /><slave name='JTAG.avalon_jtag_slave' start='0x4003070' end='0x4003078' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone IV E" />
   <parameter name="internalIrqMaskSystemInfo" value="32" />
@@ -428,7 +464,16 @@
   <parameter name="AUTO_CLK_IN_PRIMARY_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
  </module>
- <module kind="pwm_motor" version="1.0" enabled="1" name="pwm_motor_0" />
+ <module kind="pwm_motor" version="1.0" enabled="1" name="pwm_motor_0">
+  <parameter name="AUTO_CLOCK_SINK_CLOCK_RATE" value="50000000" />
+ </module>
+ <module
+   kind="ground_sensor_controller"
+   version="1.0"
+   enabled="1"
+   name="ground_sensor_controller_0">
+  <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
+ </module>
  <connection
    kind="avalon"
    version="13.1"
@@ -491,12 +536,12 @@
    end="LED.reset" />
  <connection kind="avalon" version="13.1" start="CPU.data_master" end="SW.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x04003020" />
+  <parameter name="baseAddress" value="0x04003060" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="avalon" version="13.1" start="CPU.data_master" end="LED.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x04003010" />
+  <parameter name="baseAddress" value="0x04003050" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="reset" version="13.1" start="clk_0.clk_reset" end="JTAG.reset" />
@@ -506,7 +551,7 @@
    start="CPU.data_master"
    end="JTAG.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x04003030" />
+  <parameter name="baseAddress" value="0x04003070" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -573,6 +618,25 @@
    version="13.1"
    start="CPU.data_master"
    end="pwm_motor_0.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x04003040" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="clock"
+   version="13.1"
+   start="clk_0.clk"
+   end="ground_sensor_controller_0.clock" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="ground_sensor_controller_0.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="CPU.data_master"
+   end="ground_sensor_controller_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x04003000" />
   <parameter name="defaultConnection" value="false" />

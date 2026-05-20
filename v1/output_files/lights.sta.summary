@@ -2,64 +2,88 @@
 TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
-Type  : Slow 1200mV 85C Model Setup 'altera_reserved_tck'
-Slack : 47.358
+Type  : Slow 1200mV 85C Model Setup 'capteurs_sol_seuil:u_capteurs|channel[0]'
+Slack : -2.390
+TNS   : -4.809
+
+Type  : Slow 1200mV 85C Model Setup 'u_pll|altpll_component|auto_generated|pll1|clk[0]'
+Slack : -0.371
+TNS   : -9.958
+
+Type  : Slow 1200mV 85C Model Hold 'u_pll|altpll_component|auto_generated|pll1|clk[0]'
+Slack : -4.227
+TNS   : -50.503
+
+Type  : Slow 1200mV 85C Model Hold 'capteurs_sol_seuil:u_capteurs|channel[0]'
+Slack : -0.588
+TNS   : -0.588
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'capteurs_sol_seuil:u_capteurs|channel[0]'
+Slack : 0.430
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Hold 'altera_reserved_tck'
-Slack : 0.358
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clk'
+Slack : 9.682
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Recovery 'altera_reserved_tck'
-Slack : 48.459
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'u_pll|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 12.251
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Removal 'altera_reserved_tck'
-Slack : 0.885
+Type  : Slow 1200mV 0C Model Setup 'capteurs_sol_seuil:u_capteurs|channel[0]'
+Slack : -2.062
+TNS   : -4.146
+
+Type  : Slow 1200mV 0C Model Setup 'u_pll|altpll_component|auto_generated|pll1|clk[0]'
+Slack : -0.228
+TNS   : -11.671
+
+Type  : Slow 1200mV 0C Model Hold 'u_pll|altpll_component|auto_generated|pll1|clk[0]'
+Slack : -3.808
+TNS   : -38.693
+
+Type  : Slow 1200mV 0C Model Hold 'capteurs_sol_seuil:u_capteurs|channel[0]'
+Slack : -0.464
+TNS   : -0.464
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'capteurs_sol_seuil:u_capteurs|channel[0]'
+Slack : 0.442
 TNS   : 0.000
 
-Type  : Slow 1200mV 85C Model Minimum Pulse Width 'altera_reserved_tck'
-Slack : 49.628
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'clk'
+Slack : 9.703
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Setup 'altera_reserved_tck'
-Slack : 47.662
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'u_pll|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 12.241
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Hold 'altera_reserved_tck'
-Slack : 0.311
+Type  : Fast 1200mV 0C Model Setup 'capteurs_sol_seuil:u_capteurs|channel[0]'
+Slack : -1.013
+TNS   : -2.012
+
+Type  : Fast 1200mV 0C Model Setup 'u_pll|altpll_component|auto_generated|pll1|clk[0]'
+Slack : -0.170
+TNS   : -0.247
+
+Type  : Fast 1200mV 0C Model Hold 'u_pll|altpll_component|auto_generated|pll1|clk[0]'
+Slack : -2.526
+TNS   : -17.477
+
+Type  : Fast 1200mV 0C Model Hold 'capteurs_sol_seuil:u_capteurs|channel[0]'
+Slack : -0.320
+TNS   : -0.320
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'capteurs_sol_seuil:u_capteurs|channel[0]'
+Slack : 0.414
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Recovery 'altera_reserved_tck'
-Slack : 48.663
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'clk'
+Slack : 9.444
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Removal 'altera_reserved_tck'
-Slack : 0.790
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Minimum Pulse Width 'altera_reserved_tck'
-Slack : 49.605
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'altera_reserved_tck'
-Slack : 48.715
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'altera_reserved_tck'
-Slack : 0.187
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Recovery 'altera_reserved_tck'
-Slack : 49.318
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Removal 'altera_reserved_tck'
-Slack : 0.496
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Minimum Pulse Width 'altera_reserved_tck'
-Slack : 49.483
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'u_pll|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 12.283
 TNS   : 0.000
 
 ------------------------------------------------------------
